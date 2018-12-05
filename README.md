@@ -1,2 +1,5 @@
 # Flappy-Bird-Unity
-A simple Unity Project to create a clone of the game "Flappy Bird"
+
+Flappy Bird is a simple Game made for Android and IOS. This Unity project hopes to create a clone of this game.
+
+# This is purely for learning purposes
