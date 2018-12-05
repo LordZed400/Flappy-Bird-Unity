@@ -10,12 +10,10 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] private SpriteRenderer background;
 	[SerializeField] private Animator getReadyAnim, flappyAnim;
 
-
 	private GameObject flappy;
 
 	void Start () {
-
-		flappy = Instantiate(playerPrefabs[Random.Range(0,2)], playerPos.position, transform.rotation);
+		flappy = Instantiate(playerPrefabs[Random.Range(0,3)], playerPos.position, transform.rotation);
 		flappyAnim = flappy.GetComponent<Animator>();
 		background.sprite = backgroundImage[Random.Range(0,2)];
 	}
@@ -26,6 +24,10 @@ public class GameManager : MonoBehaviour {
 
 	public void GetReady(){
 		getReadyAnim.SetTrigger("Start");
-		flappyAnim.SetLayerWeight(1, 0);
+		flappy.GetComponentInChildren<Rigidbody2D>().gravityScale = 0.5f;
+		// flappyAnim.SetLayerWeight(1, 0);
+		flappyAnim.SetTrigger("Start");
+
 	}
+
 }
