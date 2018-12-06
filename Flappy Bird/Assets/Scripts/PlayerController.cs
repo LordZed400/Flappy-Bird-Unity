@@ -1,19 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
 	[SerializeField] private float thrust, tiltSmooth, hoverDistance, hoverSpeed;
-	[SerializeField] private Text gameScoreText;
-	private int gameScore;
 	private bool start;
 	private float timer, y;
 	private Rigidbody2D playerRigid;
 	private Quaternion downRotation, upRotation;
-
-	
+		
 
 	// Use this for initialization
 	void Start () {
@@ -50,8 +46,7 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col){
 		// Update Sore
 		Destroy(col.gameObject);
-		gameScore++;
-		gameScoreText.text = gameScore + "";
+		GameManager.Instance.UpdateScore();
 	}
 
 	void OnCollision2D(Collision2D col){

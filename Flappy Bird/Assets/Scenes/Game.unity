@@ -685,7 +685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.0002746582, y: 0}
+  m_AnchoredPosition: {x: -0.00024414062, y: 0}
   m_SizeDelta: {x: 342.86, y: 588.3}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1043890488
@@ -765,7 +765,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 1768d357aa7331f4f9c0e023cf9249f1, type: 3}
   background: {fileID: 963203100}
   getReadyAnim: {fileID: 817033528}
-  flappyAnim: {fileID: 0}
+  gameScoreText: {fileID: 1043890488}
 --- !u!4 &1052653007
 Transform:
   m_ObjectHideFlags: 0
@@ -936,3 +936,49 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 411.8}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1991070508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1991070509}
+  - component: {fileID: 1991070510}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1991070509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1991070508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991070510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1991070508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d88747388e9b12c47a3921fcc34a8df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 1.5
+  obstaclePrefabs:
+  - {fileID: 1556402544744368, guid: 3420925d93c729a48bb3705653b55702, type: 2}
+  - {fileID: 1559013965715528, guid: e161e893614291a4f901af2beb8ba3f7, type: 2}
+  - {fileID: 1605059603028916, guid: a8e61c5448eed224db90a8f4df1c01a0, type: 2}
+  - {fileID: 1245435645037764, guid: c146c4e9728549d49acf16ab2faffc86, type: 2}
