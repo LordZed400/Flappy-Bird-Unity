@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114074717333566416}
   - component: {fileID: 50947411552664758}
   - component: {fileID: 61628308580313780}
+  - component: {fileID: 58596148591762704}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -64,13 +65,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 1
+--- !u!58 &58596148591762704
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1777335255771388}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.06
 --- !u!61 &61628308580313780
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1777335255771388}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -118,8 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58971bba16e216d429598c6a31faf0d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 200
-  tiltSmooth: 1.5
+  thrust: 225
+  minTiltSmooth: 1
+  maxTiltSmooth: 5
   hoverDistance: 0.1
   hoverSpeed: 5
 --- !u!212 &212882205146042712

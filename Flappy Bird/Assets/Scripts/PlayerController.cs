@@ -4,54 +4,75 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	[SerializeField] private float thrust, tiltSmooth, hoverDistance, hoverSpeed;
+	[SerializeField] private float thrust, minTiltSmooth, maxTiltSmooth, hoverDistance, hoverSpeed;
 	private bool start;
-	private float timer, y;
+	private float timer, tiltSmooth, y;
 	private Rigidbody2D playerRigid;
 	private Quaternion downRotation, upRotation;
-		
 
-	// Use this for initialization
 	void Start () {
-		playerRigid = GetComponent<Rigidbody2D>();
-		downRotation = Quaternion.Euler(0, 0, -90);
-		upRotation = Quaternion.Euler(0, 0, 35);
-
+		tiltSmooth = maxTiltSmooth;
+		playerRigid = GetComponent<Rigidbody2D> ();
+		downRotation = Quaternion.Euler (0, 0, -90);
+		upRotation = Quaternion.Euler (0, 0, 35);
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		if(!start){
+		if (!start) {
 			timer += Time.deltaTime;
-			y = hoverDistance * Mathf.Sin(hoverSpeed * timer);
+			y = hoverDistance * Mathf.Sin (hoverSpeed * timer);
 			transform.localPosition = new Vector3 (0, y, 0);
-		}else{
-			transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
-		}		
+		} else {
+			transform.rotation = Quaternion.Lerp (transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
+		}
+		transform.rotation = new Quaternion (transform.rotation.x, transform.rotation.y, Mathf.Clamp (transform.rotation.z, downRotation.z, upRotation.z), transform.rotation.w);
 	}
 
-	void LateUpdate(){
-		if(Input.GetMouseButtonDown(0)) {
-			if(start){
-				// Debug.Log("Hello");
+	void LateUpdate () {
+		if (GameManager.Instance.GameState ()) {
+			if (Input.GetMouseButtonDown (0)) {
+				if(!start){
+					start = true;
+					GameManager.Instance.GetReady ();
+					GetComponent<Animator>().speed = 2;
+				}
+				playerRigid.gravityScale = 1f;
+				tiltSmooth = minTiltSmooth;
 				transform.rotation = upRotation;
 				playerRigid.velocity = Vector2.zero;
-				playerRigid.AddForce(Vector2.up * thrust);
-			}else{
-				start = true;
+				playerRigid.AddForce (Vector2.up * thrust);
 			}
+		}
+		if (playerRigid.velocity.y < -1f) {
+			tiltSmooth = maxTiltSmooth;
+			playerRigid.gravityScale = 2f;
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D col){
-		// Update Sore
-		Destroy(col.gameObject);
-		GameManager.Instance.UpdateScore();
+	void OnTriggerEnter2D (Collider2D col) {
+		if (col.transform.CompareTag ("Score")) {
+			Destroy (col.gameObject);
+			GameManager.Instance.UpdateScore ();
+		} else if (col.transform.CompareTag ("Obstacle")) {
+			foreach (Transform child in col.transform.parent.transform) {
+				child.gameObject.GetComponent<BoxCollider2D> ().enabled = false;
+			}
+			KillPlayer ();
+		}
 	}
 
-	void OnCollision2D(Collision2D col){
-		// Kill Flappy
-		playerRigid.simulated = false;
-		
+	void OnCollisionEnter2D (Collision2D col) {
+		if (col.transform.CompareTag ("Ground")) {
+			playerRigid.simulated = false;
+			KillPlayer ();
+			transform.rotation = downRotation;
+		}
 	}
+
+	public void KillPlayer () {
+		GameManager.Instance.EndGame ();
+		playerRigid.velocity = Vector2.zero;
+		GetComponent<Animator> ().enabled = false;
+	}
+
 }

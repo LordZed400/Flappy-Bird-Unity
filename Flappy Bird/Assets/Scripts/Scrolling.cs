@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class Scrolling : MonoBehaviour {
 
-    private Renderer quadRenderer;
     [SerializeField] private float scrollSpeed;
+    [SerializeField] private bool isMainMenu;
+    private Renderer quadRenderer;
+    
 
-    void Start()
-    {
+    void Start() {
         quadRenderer = GetComponent<Renderer>();
     }
 
-    void Update()
-    {
+    void Update() {
+        if(isMainMenu){
+            Scroll();
+        }else{
+            if(GameManager.Instance.GameState()){
+                Scroll();
+            }
+        }
+    }
+
+    public void Scroll(){
         Vector2 textureOffset = new Vector2( Time.time * scrollSpeed, 0);
         quadRenderer.material.mainTextureOffset = textureOffset;
     }
