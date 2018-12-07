@@ -5,8 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
-	public void ChangeScene(string sceneName){
-		SceneManager.LoadScene(sceneName);
+	[SerializeField] private Animator fadeAnim;
+
+	public void ChangeScene(){
+		fadeAnim.SetTrigger("Start");
+		StartCoroutine("StartGame");
+		SoundManager.Instance.PlayTheAudio("Swoosh");
+	}
+
+	IEnumerator StartGame(){
+		yield return new WaitForSeconds(0.8f);
+		SceneManager.LoadScene("Game");
 	}
 
 	public void RateGame(){

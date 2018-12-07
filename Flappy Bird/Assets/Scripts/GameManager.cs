@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] private Animator getReadyAnim, cameraAnim;
 	[SerializeField] private Text gameScoreText;
 	[SerializeField] private GameObject[] endButtons;
-	[SerializeField] private Animator endAnimations;
+	[SerializeField] private Animator endAnimations, fadeAnim;
 
 	private GameObject flappy;
 	private bool ready, start, end;
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
 	public void UpdateScore () {
 		gameScore++;
 		gameScoreText.text = gameScore + "";
+		SoundManager.Instance.PlayTheAudio("Point");
 	}
 
 	public bool GameState () {
@@ -60,16 +61,23 @@ public class GameManager : MonoBehaviour {
 	public void EndGame () {
 		start = false;
 		if(!end){
+			if(gameScore > PlayerPrefs.GetInt("Score")){
+				PlayerPrefs.SetInt("Score", gameScore); 
+			}
 			end = true;
 			GameManager.Instance.StartCoroutine("GameOver");
+			SoundManager.Instance.PlayTheAudio("Hit");
 		}
 	}
 
 	IEnumerator GameOver () {
 		endAnimations.SetTrigger("End");
 		yield return new WaitForSeconds (0.5f);
+		SoundManager.Instance.PlayTheAudio("Swoosh");
 		gameScoreText.enabled = false;
-		yield return new WaitForSeconds (1.5f);
+		yield return new WaitForSeconds (1f);
+		SoundManager.Instance.PlayTheAudio("Swoosh");
+		yield return new WaitForSeconds (0.5f);
 		foreach(GameObject endButton in endButtons){
 			endButton.SetActive(true);
 		}
@@ -77,6 +85,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Replay(){
+		fadeAnim.SetTrigger("Start");
+		StartCoroutine("StartGame");
+		SoundManager.Instance.PlayTheAudio("Swoosh");
+	}
+
+	IEnumerator StartGame(){
+		yield return new WaitForSeconds(0.8f);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 

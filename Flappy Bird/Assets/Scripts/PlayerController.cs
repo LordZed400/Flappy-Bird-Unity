@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 				transform.rotation = upRotation;
 				playerRigid.velocity = Vector2.zero;
 				playerRigid.AddForce (Vector2.up * thrust);
+				SoundManager.Instance.PlayTheAudio("Flap");
 			}
 		}
 		if (playerRigid.velocity.y < -1f) {
