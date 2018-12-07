@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour {
 
 	void Start () {
 		playAudio = GetComponent<AudioSource>();
+		// Keep this game object across all the scenes as Audio needs to be played for Main Menu as well as Game Scene
 		DontDestroyOnLoad(gameObject);
 	}
 	

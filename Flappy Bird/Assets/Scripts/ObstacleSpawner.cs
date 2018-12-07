@@ -16,6 +16,7 @@ public class ObstacleSpawner : MonoBehaviour {
 		if(GameManager.Instance.GameState()){
 			tempTime += Time.deltaTime;
 			if(tempTime > waitTime){
+				// Wait for some time, create an obstacle, then set wait time to 0 and start again
 				tempTime = 0;
 				GameObject pipeClone = Instantiate(obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)], transform.position, transform.rotation);
 			}

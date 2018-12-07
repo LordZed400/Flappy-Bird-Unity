@@ -24,6 +24,7 @@ public class Scrolling : MonoBehaviour {
     }
 
     public void Scroll(){
+        // Continuously scroll the image of the ground to simulate Left to Right movement
         Vector2 textureOffset = new Vector2( Time.time * scrollSpeed, 0);
         quadRenderer.material.mainTextureOffset = textureOffset;
     }

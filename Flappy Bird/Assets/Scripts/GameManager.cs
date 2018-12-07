@@ -22,19 +22,23 @@ public class GameManager : MonoBehaviour {
 	private int gameScore;
 
 	void Awake () {
+		// Create an Instance of the GameManager to be used by other scripts
 		Instance = this;
 	}
 
 	void Start () {
 		ready = true;
-		flappy = Instantiate (playerPrefabs[Random.Range (0, 3)], playerPos.position, transform.rotation);
+		// Create one amongst the 3 players
+		flappy = Instantiate (playerPrefabs[Random.Range (0, playerPrefabs.Length)], playerPos.position, transform.rotation);
 		flappy.transform.parent = playerPos;
-		background.sprite = backgroundImage[Random.Range (0, 2)];
+		// Use one amongst the 2 Backgrounds
+		background.sprite = backgroundImage[Random.Range (0, backgroundImage.Length)];
 	}
 
 	void Update () {
 		if (ready && !start) {
 			if (Input.GetMouseButtonDown (0)) {
+				// Game starts only after the first Tap
 				ready = false;
 				start = true;
 			}
@@ -42,7 +46,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void GetReady () {
+		// Remove the Tutorial Image
 		getReadyAnim.SetTrigger ("Start");
+
 		flappy.GetComponentInChildren<Rigidbody2D> ().velocity = Vector2.zero;
 		flappy.GetComponentInChildren<Rigidbody2D> ().gravityScale = 1f;
 	}
@@ -54,18 +60,22 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public bool GameState () {
-
+		// Return whether the game is running or has ended
 		return start;
 	}
 
 	public void EndGame () {
 		start = false;
 		if(!end){
+			// Call this code only once, either after hitting the pipe, or after hitting the ground. As the player
+			// falls and hits the ground if it hits the pipe
+			end = true;
 			if(gameScore > PlayerPrefs.GetInt("Score")){
+				// Update the Highscore
 				PlayerPrefs.SetInt("Score", gameScore); 
 			}
 			endHighScore.text = PlayerPrefs.GetInt("Score") + ""; 
-			end = true;
+			// Start the gameover animations
 			GameManager.Instance.StartCoroutine("GameOver");
 			SoundManager.Instance.PlayTheAudio("Hit");
 		}
@@ -79,7 +89,9 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds (1f);
 		SoundManager.Instance.PlayTheAudio("Swoosh");
 		yield return new WaitForSeconds (0.5f);
+		// Roll the current score from 0
 		for(int i = 0; i <= gameScore; i++){
+			// Roll slower for the last five numbers
 			if((gameScore - i)  < 5){
 				yield return new WaitForSeconds ( 0.1f );
 			}else{
@@ -87,6 +99,7 @@ public class GameManager : MonoBehaviour {
 			}
 			endScore.text = i + "";
 		}
+		// Show "Play again" and "Leaderboards" button
 		foreach(GameObject endButton in endButtons){
 			endButton.SetActive(true);
 		}
