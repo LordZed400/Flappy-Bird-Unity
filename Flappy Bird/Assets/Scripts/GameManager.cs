@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] private Transform playerPos;
 	[SerializeField] private Sprite[] backgroundImage;
 	[SerializeField] private SpriteRenderer background;
-	[SerializeField] private Animator getReadyAnim, cameraAnim;
-	[SerializeField] private Text gameScoreText;
+	[SerializeField] private Animator getReadyAnim;
+	[SerializeField] private Text gameScoreText, endScore, endHighScore;
 	[SerializeField] private GameObject[] endButtons;
 	[SerializeField] private Animator endAnimations, fadeAnim;
 
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 			if(gameScore > PlayerPrefs.GetInt("Score")){
 				PlayerPrefs.SetInt("Score", gameScore); 
 			}
+			endHighScore.text = PlayerPrefs.GetInt("Score") + ""; 
 			end = true;
 			GameManager.Instance.StartCoroutine("GameOver");
 			SoundManager.Instance.PlayTheAudio("Hit");
@@ -78,6 +79,14 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds (1f);
 		SoundManager.Instance.PlayTheAudio("Swoosh");
 		yield return new WaitForSeconds (0.5f);
+		for(int i = 0; i <= gameScore; i++){
+			if((gameScore - i)  < 5){
+				yield return new WaitForSeconds ( 0.1f );
+			}else{
+				yield return new WaitForSeconds ( 0.05f );
+			}
+			endScore.text = i + "";
+		}
 		foreach(GameObject endButton in endButtons){
 			endButton.SetActive(true);
 		}
