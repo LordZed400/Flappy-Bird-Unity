@@ -16,9 +16,13 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] private Text gameScoreText, endScore, endHighScore;
 	[SerializeField] private GameObject[] endButtons;
 	[SerializeField] private Animator endAnimations, fadeAnim;
+	[SerializeField] private Image newImage;
+	[SerializeField] private Sprite[] medals;
+	[SerializeField] private Image medalImage;
+	[SerializeField] private GameObject medalSparkle;
 
 	private GameObject flappy;
-	private bool ready, start, end;
+	private bool ready, start, end, newBool;
 	private int gameScore;
 
 	void Awake () {
@@ -27,6 +31,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
+		// Delete all Player Preferences while starting the game
+		// This is done only for testing purposes and should not be kept in the actual game
+		// PlayerPrefs.DeleteAll();
+
+
 		ready = true;
 		// Create one amongst the 3 players
 		flappy = Instantiate (playerPrefabs[Random.Range (0, playerPrefabs.Length)], playerPos.position, transform.rotation);
@@ -73,6 +82,7 @@ public class GameManager : MonoBehaviour {
 			if(gameScore > PlayerPrefs.GetInt("Score")){
 				// Update the Highscore
 				PlayerPrefs.SetInt("Score", gameScore); 
+				newBool = true;
 			}
 			endHighScore.text = PlayerPrefs.GetInt("Score") + ""; 
 			// Start the gameover animations
@@ -99,6 +109,27 @@ public class GameManager : MonoBehaviour {
 			}
 			endScore.text = i + "";
 		}
+		if(newBool){
+			// Display New if current score exceeds the Highscore
+			newImage.enabled = true;
+		}
+		
+		// Display Medals according to the score
+		if(gameScore >= 40){
+			medalImage.sprite = medals[3];
+		}else if(gameScore >= 30){
+			medalImage.sprite = medals[2];
+		}else if(gameScore >= 20){
+			medalImage.sprite = medals[1];
+		}else if(gameScore >= 10){
+			medalImage.sprite = medals[0];
+		}
+
+		// Activate the sparkles  for the Medal
+		if(gameScore >= 10){
+			medalSparkle.SetActive(true);
+		}
+
 		// Show "Play again" and "Leaderboards" button
 		foreach(GameObject endButton in endButtons){
 			endButton.SetActive(true);
