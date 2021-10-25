@@ -13,7 +13,7 @@ Flappy Bird is a simple Game made for Android and IOS. This Unity project hopes 
 
 |Game Screen Day|Game Screen Night|
 |--|--|
-|![Game Screen 1](https://i.imgur.com/mB4aE3r.png "Game Screen")  | ![Game Screen 2](https://i.imgur.com/aLIkuU0.png "Game Screen") |
+|![Game Screen 1](https://i.imgur.com/aLIkuU0.png "Game Screen")  | ![Game Screen 2](https://i.imgur.com/mB4aE3r.png "Game Screen") |
 
 ![Main Game](https://i.imgur.com/dW9ZMhc.png "Game")
 
